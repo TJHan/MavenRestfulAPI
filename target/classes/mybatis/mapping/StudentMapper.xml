@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tj.dao.IStudentMapper" >
+  <resultMap id="BaseResultMap" type="com.tj.entity.Student" >
+    <id column="StudentID" property="studentid" jdbcType="INTEGER" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Age" property="age" jdbcType="INTEGER" />
+    <result column="Birthday" property="birthday" jdbcType="DATE" />
+    <result column="Description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    StudentID,Name,Age,Birthday,Description
+  </sql>
+  
+  <select id="FindById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where StudentID = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <insert id="Insert" parameterType="com.tj.entity.Student" >
+    insert into student (StudentID,Name,Age,Birthday,Description)
+    values (#{studentid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},#{age,jdbcType=INTEGER}, #{birthday,jdbcType=DATE},#{description,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="Update" parameterType="com.tj.entity.Student">
+	 update Student
+	 <set>
+	 	<if test="name != null">
+	 		Name = #{name,jdbcType=VARCHAR}
+	 	</if>
+	 	<if test="age != null">
+	 		Age = #{age,jdbcType=INTEGER}
+	 	</if>
+	 	<if test="birthday != null">
+	 		Birthday = #{birthday,jdbcType=DATE}
+	 	</if>
+	 	<if test="description != null">
+	 		Description = #{description,jdbcType=VARCHAR}
+	 	</if>
+	 </set>
+	 where StudentID = #{studentid,jdbcType=INTEGER}
+ </update>
+ 
+ <delete id="Delete" parameterType="java.lang.Integer">
+ 	delete from Student where StudentID = #{id,jdbcType=INTEGER}
+ </delete>
+ </mapper>
